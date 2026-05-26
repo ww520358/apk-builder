@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/main_bg"
+    android:padding="0dp"
+    android:fitsSystemWindows="false">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/webview_back_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="0dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:padding="6dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/yc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:background="@drawable/panel_bg"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前是上号模式"
+            android:textSize="16sp"
+            android:textColor="#FFD700"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上号数据"
+                android:textSize="14sp"
+                android:textColor="#FFD700"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="请输入上号数据"
+                android:textSize="14sp"
+                android:background="@drawable/edit_text_bg"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:layout_marginBottom="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/unlimited_mode_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不限制数据上号"
+                    android:textSize="12sp"
+                    android:textColor="#FFD700"
+                    android:checked="false"
+                    android:buttonTint="#FFD700"
+                    android:visibility="visible"/>   <!-- 关键修改：改为 visible -->
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/query_button"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="查询"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/btn_primary"
+                android:layout_marginStart="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/my_button"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:text="登录游戏"
+                android:onClick="sh"
+                android:gravity="center"
+                android:background="@drawable/btn_primary"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/add_account_button"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:text="添加账号"
+                android:background="@drawable/btn_primary"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/backup_button"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:text="备份账号"
+                android:textSize="14sp"
+                android:background="@drawable/btn_primary"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="账号列表"
+                        android:textSize="14sp"
+                        android:textColor="#FFD700"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="点击操作"
+                        android:textSize="10sp"
+                        android:textColor="#888888"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/import_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:text="导入备份"
+                    android:textSize="12sp"
+                    android:background="@drawable/btn_primary"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginBottom="12dp"/>
+
+                <ListView
+                    android:id="@+id/account_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:divider="#FFFF"
+                    android:dividerHeight="1dp"
+                    android:background="#00FFFFFF"/>
+
+                <TextView
+                    android:id="@+id/empty_account_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="暂无账号数据"
+                    android:textSize="14sp"
+                    android:textColor="#FFD700"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

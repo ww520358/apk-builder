@@ -1,0 +1,9 @@
+# view AndroidManifest.xml #generated:12
+-keep class com.example.application.GlobalApplication { <init>(...); }
+
+# view AndroidManifest.xml #generated:56
+-keep class com.example.application.GlobalApplication$CrashActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:19
+-keep class com.example.application.MainActivity { <init>(...); }
+

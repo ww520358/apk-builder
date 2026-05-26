@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- 圆角设置 -->
+    <corners
+        android:radius="10dp" />
+    <!-- 背景纯色 -->
+    <solid android:color="#FFD700" />
+    <!-- 添加此标签，width设为0dp实现阴影为零 -->
+    <stroke
+        android:width="0dp"
+        android:color="@android:color/transparent" />
+</shape>

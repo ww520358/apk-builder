@@ -1,15 +1,86 @@
-name: Test Workflow
+name: Build Custom APK
 
 on:
   workflow_dispatch:
     inputs:
-      test_input:
-        description: 'Test'
+      default_uid:
+        description: 'Your UID'
         required: true
-        default: 'hello'
+        default: 'user_69e24b950537d4.17461984'
+      app_name:
+        description: 'App Name'
+        required: true
+        default: 'MyApp'
+      activity_label:
+        description: 'Activity Label'
+        required: true
+        default: 'MyActivity'
+      main_title:
+        description: 'Main Title'
+        required: true
+        default: 'Welcome'
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+    # 通过环境变量传递输入，避免在 Python 字符串中直接拼接，防止注入
+    env:
+      DEFAULT_UID: ${{ github.event.inputs.default_uid }}
+      APP_NAME: ${{ github.event.inputs.app_name }}
+      ACTIVITY_LABEL: ${{ github.event.inputs.activity_label }}
+      MAIN_TITLE: ${{ github.event.inputs.main_title }}
+
     steps:
-      - run: echo "Workflow works!"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'   # 自动缓存 Gradle 依赖，大幅加速构建
+
+      - name: Replace placeholders
+        run: |
+          python3 << 'EOF'
+          import os
+
+          replacements = {
+              '{{DEFAULT_UID}}': os.environ['DEFAULT_UID'],
+              '{{APP_NAME}}': os.environ['APP_NAME'],
+              '{{ACTIVITY_LABEL}}': os.environ['ACTIVITY_LABEL'],
+              '{{MAIN_TITLE}}': os.environ['MAIN_TITLE'],
+          }
+
+          files = [
+              'app/src/main/java/com/tencent/open/agent/AgentActivity.java',
+              'app/src/main/res/values/strings.xml',
+              'app/src/main/AndroidManifest.xml',
+              'app/src/main/res/layout/activity_main.xml',
+          ]
+
+          for file in files:
+              with open(file, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              for old, new in replacements.items():
+                  content = content.replace(old, new)
+              with open(file, 'w', encoding='utf-8') as f:
+                  f.write(content)
+          EOF
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # 改为 Debug 构建，生成的 APK 自带调试签名，可以直接安装测试
+      # 如需发布 Release 版本，请：
+      #   1. 将此处改为 assembleRelease
+      #   2. 在 build.gradle 中配置签名，并通过 GitHub Secrets 传入密钥信息
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: custom-apk
+          path: app/build/outputs/apk/debug/*.apk

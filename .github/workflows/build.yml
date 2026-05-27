@@ -1,0 +1,15 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_input:
+        description: 'Test'
+        required: true
+        default: 'hello'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Workflow works!"

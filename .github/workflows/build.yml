@@ -23,7 +23,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 通过环境变量传递输入，避免在 Python 字符串中直接拼接，防止注入
     env:
       DEFAULT_UID: ${{ github.event.inputs.default_uid }}
       APP_NAME: ${{ github.event.inputs.app_name }}
@@ -39,7 +38,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle'   # 自动缓存 Gradle 依赖，大幅加速构建
+          cache: 'gradle'
 
       - name: Replace placeholders
         run: |
@@ -61,21 +60,21 @@ jobs:
           ]
 
           for file in files:
-              with open(file, 'r', encoding='utf-8') as f:
-                  content = f.read()
-              for old, new in replacements.items():
-                  content = content.replace(old, new)
-              with open(file, 'w', encoding='utf-8') as f:
-                  f.write(content)
+              if os.path.exists(file):
+                  with open(file, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                  for old, new in replacements.items():
+                      content = content.replace(old, new)
+                  with open(file, 'w', encoding='utf-8') as f:
+                      f.write(content)
+                  print(f"✅ Replaced in {file}")
+              else:
+                  print(f"⚠️ Skipping missing file: {file}")
           EOF
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 改为 Debug 构建，生成的 APK 自带调试签名，可以直接安装测试
-      # 如需发布 Release 版本，请：
-      #   1. 将此处改为 assembleRelease
-      #   2. 在 build.gradle 中配置签名，并通过 GitHub Secrets 传入密钥信息
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
